@@ -3,18 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
+
 use App\Http\Controllers\Controller;
+
+use App\Post;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   
+       //se muestra toda la lista de etiquetas 
+        $posts = Post::orderBy('id', 'DESC')->paginate();
+        // dd($posts);
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -24,7 +38,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        //muestra el formulario
+        return view('admin.posts.create');
     }
 
     /**
@@ -33,9 +48,17 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
-        //
+ 
+        //$post = Post::create($request->all());
+        //return redirect()->route('posts.edit', $post->id)
+        //->with('info', 'Entrada creada con éxito');
+
+        $post = Post::create($request->all());
+        return redirect()->route('posts.edit', $post->id)
+            ->with('info', 'Entrada creada con éxito');
+
     }
 
     /**
@@ -46,7 +69,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        //ver en detalle una etiqueta
+        $post = Post::find($id);
+
+        return view('admin.posts.show', compact('post'));
     }
 
     /**
@@ -57,7 +83,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        //permite editar una etiqueta 
+        $post = Post::find($id);
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -69,7 +97,13 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //actualiza la vista de los datos modificados 
+        $post = Post::find($id);
+
+        $post->fill($request->all())->save();
+
+        return redirect()->route('posts.edit', $post->id)
+        ->with('info', 'Entrada modificada con éxito');
     }
 
     /**
@@ -80,6 +114,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Eliminamos un registro 
+        $post = Post::find($id)->delete();
+        
+        return back()->with('info', 'Entrada eliminada correctamente');
+
     }
 }
