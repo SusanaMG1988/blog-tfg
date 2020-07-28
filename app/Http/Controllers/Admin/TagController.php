@@ -95,7 +95,7 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TagUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //actualiza la vista de los datos modificados 
         $tag = Tag::find($id);

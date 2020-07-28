@@ -11,13 +11,12 @@
                 </div>
 
                 <div class="panel-body">
-                  {!! Form::model(['route' => 'tags.update', $tag->id,
-                  'method' => 'PUT']) !!}
-                    
+                    {!! Form::model($tag, ['route' => ['tags.update', $tag->id], 
+                    'method' => 'PUT']) !!}
 
                     @include('admin.tags.partials.form')
 
-                  {!! Form::close() !!}
+                    {!! Form::close() !!}
                 </div>
 
             </div>

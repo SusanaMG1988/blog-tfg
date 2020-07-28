@@ -7,13 +7,13 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    Editar Etiqueta
+                    Editar Categoría
                 </div>
 
                 <div class="panel-body">
-                  {!! Form::model(['route' => 'categories.update', $category->id,
+                  {!! Form::model($category, ['route' => ['categories.update', $category->id], 
                   'method' => 'PUT']) !!}
-                    
+
 
                     @include('admin.categories.partials.form')
 

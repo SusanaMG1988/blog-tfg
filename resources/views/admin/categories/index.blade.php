@@ -6,9 +6,9 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Lista de etiquetas
+                    Lista de Categorías
                     <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary pull-right">
-                        Crear
+                        Crear Categoría
                     </a>
                 </div>
 
@@ -30,13 +30,13 @@
                                 <td width="10px">
                                     <a href="{{ route('categories.show', $category->id) }}"
                                         class="btn btn-sm btn-primary pull-right">
-                                        ver
+                                        ver Categoría
                                     </a>
                                 </td>
                                 <td width="10px">
                                     <a href="{{ route('categories.edit', $category->id) }}"
                                         class="btn btn-sm btn-primary pull-right">
-                                        editar
+                                        editar Categoría
                                     </a>
                                 </td>
                                 <td width="10px">

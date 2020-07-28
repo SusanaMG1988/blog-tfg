@@ -7,13 +7,15 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    Ver Etiqueta
+                    Ver Categoría
                 </div>
 
                 <div class="panel-body">
 
                     <p><strong>Nombre</strong> {{ $category->name }}</p>
                     <p><strong>Slug</strong> {{ $category->slug }}</p>
+                    <p><strong>Contenido</strong>{{ $category->body }}</p>
+                    
                 </div>
 
             </div>

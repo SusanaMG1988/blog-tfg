@@ -95,7 +95,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //actualiza la vista de los datos modificados 
         $category = Category::find($id);

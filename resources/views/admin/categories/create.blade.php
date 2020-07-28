@@ -7,14 +7,15 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    Crear Etiqueta
+                    Crear Categoría
                 </div>
 
                 <div class="panel-body">
                   {!! Form::open(['route' => 'categories.store']) !!}
-                    
 
+                  
                     @include('admin.categories.partials.form')
+
 
                   {!! Form::close() !!}
                 </div>
