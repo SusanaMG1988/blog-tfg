@@ -101,10 +101,14 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $post = Post::find($id);
+        $this->authorize('pass', $post);
+
         //permite editar una etiqueta 
         $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
         $tags = Tag::orderBy('name', 'ASC')->get();
-        $post = Post::find($id);
+       
+       
         return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
@@ -119,7 +123,7 @@ class PostController extends Controller
     {
         //actualiza la vista de los datos modificados 
         $post = Post::find($id);
-
+        $this->authorize('pass', $post);
         $post->fill($request->all())->save();
 
         //IMAGE
@@ -144,7 +148,10 @@ class PostController extends Controller
     public function destroy($id)
     {
         //Eliminamos un registro 
-        $post = Post::find($id)->delete();
+        $post = Post::find($id);
+        $this->authorize('pass', $post);
+        $post->delete();
+
         
         return back()->with('info', 'Entrada eliminada correctamente');
 
