@@ -46,7 +46,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
-        $tags = Tags::orderBy('name', 'ASC')->get();
+        $tags = Tag::orderBy('name', 'ASC')->get();
         //muestra el formulario
         return view('admin.posts.create', compact('categories', 'tags'));
     }
@@ -94,7 +94,7 @@ class PostController extends Controller
     {
         //permite editar una etiqueta 
         $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
-        $tags = Tags::orderBy('name', 'ASC')->get();
+        $tags = Tag::orderBy('name', 'ASC')->get();
         $post = Post::find($id);
         return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
