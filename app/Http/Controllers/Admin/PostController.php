@@ -9,6 +9,10 @@ use App\Http\Requests\PostUpdateRequest;
 use App\Http\Controllers\Controller;
 
 use App\Post;
+use App\Category;
+use App\Tag;
+
+
 
 class PostController extends Controller
 {
@@ -26,7 +30,10 @@ class PostController extends Controller
     public function index()
     {   
        //se muestra toda la lista de etiquetas 
-        $posts = Post::orderBy('id', 'DESC')->paginate();
+        $posts = Post::orderBy('id', 'DESC')
+        ->where('user_id', auth()->user()->id)
+        ->paginate();
+
         // dd($posts);
         return view('admin.posts.index', compact('posts'));
     }
@@ -38,8 +45,10 @@ class PostController extends Controller
      */
     public function create()
     {
+        $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
+        $tags = Tags::orderBy('name', 'ASC')->get();
         //muestra el formulario
-        return view('admin.posts.create');
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -84,8 +93,10 @@ class PostController extends Controller
     public function edit($id)
     {
         //permite editar una etiqueta 
+        $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
+        $tags = Tags::orderBy('name', 'ASC')->get();
         $post = Post::find($id);
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
