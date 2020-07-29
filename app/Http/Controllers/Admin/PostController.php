@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Controllers\Controller;
 
 use App\Post;
@@ -59,12 +61,19 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
- 
-        //$post = Post::create($request->all());
-        //return redirect()->route('posts.edit', $post->id)
-        //->with('info', 'Entrada creada con éxito');
+
 
         $post = Post::create($request->all());
+
+        //IMAGE
+        if($request->file('file')){
+            $path = Storage::disk('public')->put('image', $request->file('file'));
+            $post->fill(['file'=> asset($path)])->save();
+        }
+
+        //TAGS
+        $post->tags()->attach($request->get('tags'));
+
         return redirect()->route('posts.edit', $post->id)
             ->with('info', 'Entrada creada con éxito');
 
@@ -106,15 +115,24 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostUpdateRequest $request, $id)
     {
         //actualiza la vista de los datos modificados 
         $post = Post::find($id);
 
         $post->fill($request->all())->save();
 
+        //IMAGE
+        if($request->file('file')){
+            $path = Storage::disk('public')->put('image', $request->file('file'));
+            $post->fill(['file'=> asset($path)])->save();
+        }
+        //TAGS
+        $post->tags()->sync($request->get('tags'));
+       
         return redirect()->route('posts.edit', $post->id)
         ->with('info', 'Entrada modificada con éxito');
+
     }
 
     /**
